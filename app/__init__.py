@@ -21,16 +21,21 @@ stores = [
 def create_store():
     json = request.get_json()
     new_store = {
-      'name': json.get('name', None),
-      'items': []
+        'name': json.get('name', None),
+        'items': []
     }
     stores.append(new_store)
 
     return jsonify(new_store)
 
+
 @app.route('/store/<string:name>')
 def get_store(name):
-    pass
+    store = [item for item in stores if item['name'] == name]
+    if store:
+        return jsonify(store)
+    else:
+        return jsonify({'message': 'Item not found'})
 
 
 @app.route('/store')
