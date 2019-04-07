@@ -1,0 +1,12 @@
+# Python
+__pycache__
+*.pyc
+.DS_Store
+
+# IDEs e editores de texto
+.idea
+.vscode
+.code
+
+# Sqlite
+*.sqlite
