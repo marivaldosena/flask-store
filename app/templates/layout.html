@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>
+    {%- if title %}
+      {{ title }}
+    {% else %}
+      Store
+    {% endif%}
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  {% block styles %}{% endblock %}
+</head>
+<body>
+  {% block content %}{% endblock %}
+  <script src="scripts.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
