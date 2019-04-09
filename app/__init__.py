@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, render_template
-
+from flask_restful import Api, Resource, reqparse
 app = Flask(__name__)
-
+api = Api(app)
 
 stores = [
     {
@@ -16,35 +16,42 @@ stores = [
     }
 ]
 
+parser = reqparse.RequestParser()
+parser.add_argument('name', required=True, type=str, help='Name é obrigatório.')
+
+
+class StoreListResource(Resource):
+    def get(self):
+        return jsonify({'stores': stores})
+
+
+class StoreResource(Resource):
+    def get(self, name):
+        store = [store for store in stores if store['name'] == name]
+        if store:
+            return jsonify(store)
+        else:
+            return jsonify({'message': 'Store not found'})
+
+    def post(self):
+        args = parser.parse_args()
+
+        new_store = {
+            'name': args.get('name', None),
+            'items': []
+        }
+        stores.append(new_store)
+
+        return jsonify(new_store)
+
+
+api.add_resource(StoreListResource, '/store', '/stores')
+api.add_resource(StoreResource, '/store','/store/<string:name>')
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
-
-@app.route('/store', methods=['POST'])
-def create_store():
-    json = request.get_json()
-    new_store = {
-        'name': json.get('name', None),
-        'items': []
-    }
-    stores.append(new_store)
-
-    return jsonify(new_store)
-
-
-@app.route('/store/<string:name>')
-def get_store(name):
-    store = [store for store in stores if store['name'] == name]
-    if store:
-        return jsonify(store)
-    else:
-        return jsonify({'message': 'Store not found'})
-
-
-@app.route('/store')
-@app.route('/stores')
-def get_all_stores():
-    return jsonify({'stores': stores})
 
 
 @app.route('/store/<string:name>/item', methods=['POST'])
