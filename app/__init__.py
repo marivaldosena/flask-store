@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, render_template
 from flask_restful import Api, Resource, reqparse
 app = Flask(__name__)
 api = Api(app)
@@ -23,16 +23,16 @@ parser.add_argument('name', required=True, type=str,
 
 class StoreListResource(Resource):
     def get(self):
-        return jsonify({'stores': stores})
+        return {'stores': stores}
 
 
 class StoreResource(Resource):
     def get(self, name):
         store = [store for store in stores if store['name'] == name]
         if store:
-            return jsonify(store)
+            return store
         else:
-            return jsonify({'message': 'Store not found'})
+            return {'message': 'Store not found'}
 
     def post(self):
         args = parser.parse_args()
@@ -43,7 +43,7 @@ class StoreResource(Resource):
         }
         stores.append(new_store)
 
-        return jsonify(new_store)
+        return new_store
 
 
 class StoreItemResource(Resource):
@@ -51,9 +51,9 @@ class StoreItemResource(Resource):
         items = [store['items'] for store in stores if store['name'] == name]
 
         if items:
-            return jsonify({'itens': items})
+            return {'itens': items}
         else:
-            return jsonify({'message': 'Store not found'})
+            return {'message': 'Store not found'}
 
     def post(self, name):
         json = request.get_json()
@@ -66,9 +66,9 @@ class StoreItemResource(Resource):
         for store in stores:
             if store['name'] == name:
                 store['items'].append(new_item)
-                return jsonify(store)
+                return store
 
-        return jsonify({'message': 'Store not found'})
+        return {'message': 'Store not found'}
 
 
 api.add_resource(StoreListResource, '/store', '/stores')
