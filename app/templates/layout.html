@@ -11,12 +11,13 @@
     {% endif%}
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
   {% block styles %}{% endblock %}
 </head>
 <body>
   {% block content %}{% endblock %}
-  <script src="scripts.js"></script>
+  <script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>
