@@ -43,7 +43,7 @@ class StoreResource(Resource):
         }
         stores.append(new_store)
 
-        return new_store
+        return new_store, 201
 
 
 class StoreItemResource(Resource):
@@ -66,7 +66,7 @@ class StoreItemResource(Resource):
         for store in stores:
             if store['name'] == name:
                 store['items'].append(new_item)
-                return store
+                return store, 201
 
         return {'message': 'Store not found'}, 404
 
