@@ -32,7 +32,7 @@ class StoreResource(Resource):
         if store:
             return store
         else:
-            return {'message': 'Store not found'}
+            return {'message': 'Store not found'}, 404
 
     def post(self):
         args = parser.parse_args()
@@ -53,7 +53,7 @@ class StoreItemResource(Resource):
         if items:
             return {'itens': items}
         else:
-            return {'message': 'Store not found'}
+            return {'message': 'Store not found'}, 404
 
     def post(self, name):
         json = request.get_json()
@@ -68,7 +68,7 @@ class StoreItemResource(Resource):
                 store['items'].append(new_item)
                 return store
 
-        return {'message': 'Store not found'}
+        return {'message': 'Store not found'}, 404
 
 
 api.add_resource(StoreListResource, '/store', '/stores')
