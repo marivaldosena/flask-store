@@ -20,12 +20,12 @@ class StoreItemResource(Resource):
                              price=json.get('price', None))
 
         store.items.append(new_item)
-        return store.to_json()
+        return store
         db.session.add(store)
         db.session.commit()
 
 
         if store:
-            return store.to_json(), 201
+            return store, 201
 
         return {'message': 'Store not found'}, 404

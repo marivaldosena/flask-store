@@ -6,13 +6,21 @@ class Store(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    items = db.relationship('StoreItem', backref='store', lazy=False)
+    items = db.relationship('StoreItem', backref='store', lazy='joined')
 
     def __str__(self):
-        return '<Store: {}>'.format(self.name)
+        return '{}'.format(self.to_json())
 
     def __repr__(self):
-        return '<Store: {}>'.format(self.name)
+        return '{}'.format(self.to_json())
+
+    def to_json(self):
+        json = {
+            'name': self.name,
+            'items': [self.items.all]
+        }
+
+        return json
 
 
 class StoreItem(db.Model):
@@ -20,12 +28,21 @@ class StoreItem(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(70), nullable=False)
-    price = db.Column(db.Float)
+    price = db.Column(db.Float(precision=2))
     store_id = db.Column(db.Integer, db.ForeignKey(
         'stores.id'), nullable=False)
 
     def __str__(self):
-        return '<Item: {}>'.format(self.name)
+        return '{}'.format(self.to_json())
 
     def __repr__(self):
-        return '<Item: {}>'.format(self.name)
+        return '{}'.format(self.to_json())
+
+    def to_json(self):
+        json = {
+            'name': self.name,
+            'price': self.price,
+            'store_id': self.store_id
+        }
+
+        return json
