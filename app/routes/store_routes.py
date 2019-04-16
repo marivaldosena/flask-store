@@ -8,7 +8,7 @@ parser.add_argument('name', required=True, type=str,
 
 class StoreListResource(Resource):
     def get(self):
-        stores = Store.query.all()
+        stores = [store.to_json() for store in Store.query.all()]
         return {'stores': stores}
 
 
@@ -17,7 +17,7 @@ class StoreResource(Resource):
         store = Store.query.filter_by(name=name).first()
 
         if store:
-            return store
+            return store.to_json()
         else:
             return {'message': 'Store not found'}, 404
 
@@ -29,4 +29,4 @@ class StoreResource(Resource):
         db.session.add(new_store)
         db.session.commit()
 
-        return new_store, 201
+        return new_store.to_json(), 201

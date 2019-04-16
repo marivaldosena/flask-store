@@ -17,7 +17,7 @@ class Store(db.Model):
     def to_json(self):
         json = {
             'name': self.name,
-            'items': [self.items.all]
+            'items': [item.to_json() for item in self.items]
         }
 
         return json

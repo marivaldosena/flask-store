@@ -15,8 +15,8 @@ db = SQLAlchemy(app)
 from app.routes import StoreItemResource, StoreResource, StoreListResource
 
 api.add_resource(StoreListResource, '/store', '/stores')
-api.add_resource(StoreResource, '/store', '/store/<string:name>')
-api.add_resource(StoreItemResource, '/store/<string:name>/item')
+api.add_resource(StoreResource, '/store', '/stores', '/store/<string:name>', '/stores/<string:name>')
+api.add_resource(StoreItemResource, '/store/<string:name>/item', '/stores/<string:name>/item')
 
 
 @app.route('/')

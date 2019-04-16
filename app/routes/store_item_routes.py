@@ -8,7 +8,7 @@ class StoreItemResource(Resource):
         items = Store.query.filter_by(name=name).first().items
 
         if items:
-            return {'itens': items}
+            return {'itens': [item.to_json() for item in items]}
         else:
             return {'message': 'Store not found'}, 404
 
@@ -20,7 +20,7 @@ class StoreItemResource(Resource):
                              price=json.get('price', None))
 
         store.items.append(new_item)
-        return store
+        return store.to_json()
         db.session.add(store)
         db.session.commit()
 
